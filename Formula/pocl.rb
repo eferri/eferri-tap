@@ -11,14 +11,14 @@ class Pocl < Formula
   depends_on "hwloc"
   depends_on "libtool"
 
-  option "without-test", "Skip build-time tests (not recommended)"
-  
   def install
-    cmake_args = std_cmake_args
-    cmake_args << "-DWITH_LLVM_CONFIG=#{Formula["llvm"].opt_bin}/llvm-config"
-    cmake_args << "-DCMAKE_FIND_FRAMEWORK=NEVER" # Don't use MacOS frameworks
-    system "cmake", ".", *cmake_args
-    system "make"
-    system "make", "install"
+    mkdir "build" do 
+      cmake_args = std_cmake_args
+      cmake_args << "-DWITH_LLVM_CONFIG=#{Formula["llvm"].opt_bin}/llvm-config"
+      cmake_args << "-DCMAKE_FIND_FRAMEWORK=NEVER" # Don't use MacOS frameworks
+      system "cmake", "..", *cmake_args
+      system "make"
+      system "make", "install"
+    end
   end
 end
